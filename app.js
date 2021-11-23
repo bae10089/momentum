@@ -1,40 +1,27 @@
-const title = document.querySelector(".title h1");
+const loginForm = document.querySelector("#login-form");
+const loginInput = document.querySelector("#login-form input");
+const greeting = document.querySelector("#greeting");
+const HIDDEN_CLASSNAME = "hidden";
+const USERNAME_KEY = "username";
 
-console.dir(title);
-function handleMouseEnter() {
-  title.innerText = "mouse is here!";
+function onLoginSubmit(event) {
+  event.preventDefault();
+  loginForm.classList.add(HIDDEN_CLASSNAME);
+  const username = loginInput.value;
+  localStorage.setItem(USERNAME_KEY, username);
+  paintGreeting(username);
 }
-function handleTitleClick() {
-  if(title.style.color ==="blue"){
-      title.style.color = "tomato"
-  }
-  else{
-      title.style.color = "blue"
-  }
-}
-function handleMouseLeave() {
-  title.innerText = "mouse is gone!";
-}
-function handleWindowResize() {
-  document.body.style.backgroundColor = "tomato";
-}
-function handleWindowCopy() {
-  alert("copier!");
-}
-function handleWindowOffLine() {
-  alert("SOS no WIFI");
-}
-function handleWinodwOnline() {
-  alert("good");
-}
-title.onclick = handleTitleClick;
 
-title.onmouseenter = handleMouseEnter;
-title.onmouseleave = handleMouseLeave;
-window.addEventListener("resize", handleWindowResize);
-window.addEventListener("copy", handleWindowCopy);
-window.addEventListener("offline", handleWindowOffLine);
-window.addEventListener("online", handleWinodwOnline);
-{
-  (" ");
+function paintGreeting(username) {
+  greeting.innerText = `Hello ${username}`;
+  greeting.classList.remove(HIDDEN_CLASSNAME);
+}
+
+const savedUsername = localStorage.getItem(USERNAME_KEY);
+
+if (savedUsername === null) {
+  loginForm.classList.remove(HIDDEN_CLASSNAME);
+  loginForm.addEventListener("submit", onLoginSubmit);
+} else {
+  paintGreeting(savedUsername);
 }
